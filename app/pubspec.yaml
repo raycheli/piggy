@@ -26,6 +26,7 @@ dependencies:
   sqflite:
   path:
   flutter_masked_text: ^0.7.0
+  shared_preferences: "^0.5.8"
 
 
   # The following adds the Cupertino Icons font to your application.

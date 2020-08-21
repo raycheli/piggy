@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import './screens/dbscreen.dart';
+import './screens/setvalues.dart';
+import './db/sharedpref.dart';
 
 void main() => runApp(MyApp());
 
@@ -19,7 +21,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,15 +34,42 @@ class MyHomePage extends StatelessWidget {
           title: Text('Home Page'),
         ),
         body: Center(
-          child: RaisedButton(
+            child: Column(children: [
+          FutureBuilder(
+              future: SharedPrefUtils.getPrefVal('budget'),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                      'Budgeted Amount: ' + snapshot.data.toStringAsFixed(2));
+                }
+                return CircularProgressIndicator();
+              }),
+          FutureBuilder(
+              future: SharedPrefUtils.getPrefVal('goal'),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text('Goal: ' + snapshot.data.toStringAsFixed(2));
+                }
+                return CircularProgressIndicator();
+              }),
+          RaisedButton(
             child: Text('To DB Page'),
             onPressed: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => DBRoute()),
               );
             },
           ),
-        ));
+          RaisedButton(
+            child: Text('To Set Budget'),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => BudgetRoute()),
+              );
+            },
+          )
+        ])));
   }
 }

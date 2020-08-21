@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import '../main.dart';
 import '../db/dbmanager.dart';
 
 class DBRoute extends StatefulWidget {
@@ -83,6 +84,12 @@ class _DBRouteState extends State<DBRoute> {
                 key: _formKey,
                 child: _buildForm(width),
               ),
+              RaisedButton(
+                  child: Text('Back'),
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => MyHomePage()));
+                  }),
               FutureBuilder(
                   future: dbmanager.getItems(),
                   builder: (BuildContext context,
